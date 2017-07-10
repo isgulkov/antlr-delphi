@@ -71,7 +71,8 @@ multiplicativeExpression
     ;
 
 primaryDoubleExpression
-    : DOUBLE
+    : '(' additiveExpression ')'
+    | DOUBLE
     | ID
     ;
 
@@ -91,7 +92,8 @@ notExpression
     ;
 
 primaryBoolExpression
-    : BOOLEAN
+    : '(' orExpression ')'
+    | BOOLEAN
     | ID
     ;
 

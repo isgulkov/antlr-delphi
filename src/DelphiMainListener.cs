@@ -83,7 +83,12 @@ namespace DelphiTranslator
 
 		static string PrintExpr(DelphiParser.PrimaryDoubleExpressionContext context)
 		{
-			return context.GetText();
+			if(context.additiveExpression() != null) {
+				return $"({PrintExpr(context.additiveExpression())})";
+			}
+			else {
+				return context.GetText();
+			}
 		}
 
 		static string PrintExpr(DelphiParser.OrExpressionContext context)
@@ -129,7 +134,7 @@ namespace DelphiTranslator
 				}
 			}
 			else {
-				return null; // Never happens
+				return $"({PrintExpr(context.orExpression())})";
 			}
 		}
 
