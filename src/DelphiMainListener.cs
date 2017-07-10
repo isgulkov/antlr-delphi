@@ -46,6 +46,11 @@ namespace DelphiTranslator
 			}
 		}
 
+		static string PrintExpr(DelphiParser.ExpressionContext context)
+		{
+			return "{expression}";
+		}
+
 		public override void EnterFile(DelphiParser.FileContext context)
 		{
 			OutLine("using System;");
@@ -80,6 +85,11 @@ namespace DelphiTranslator
 			));
 
 			OutLine(";");
+		}
+
+		public override void EnterAssignmentStatement(DelphiParser.AssignmentStatementContext context)
+		{
+			OutLine($"{context.ID().GetText()} = {PrintExpr(context.expression())};");
 		}
 	}
 }
