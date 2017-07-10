@@ -106,5 +106,31 @@ namespace DelphiTranslator
 		{
 			OutLine("}");
 		}
+
+		public override void EnterIfStatement(DelphiParser.IfStatementContext context)
+		{
+			OutLine($"if({PrintExpr(context.orExpression())}) {{");
+		}
+
+		public override void ExitIfStatement(DelphiParser.IfStatementContext context)
+		{
+            OutLine("}");
+		}
+
+		public override void EnterWritelnStatement(DelphiParser.WritelnStatementContext context)
+		{
+			string expressionToPrint;
+
+			if(context.expression() != null) {
+				expressionToPrint = PrintExpr(context.expression());
+			}
+			else {
+				string s = context.STRING().GetText().Replace("\'", "'");
+
+				expressionToPrint = '"' + s.Substring(1, s.Length - 2) + '"';
+			}
+
+			OutLine($"Console.WriteLine({expressionToPrint});");
+		}
 	}
 }
