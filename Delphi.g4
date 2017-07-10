@@ -9,7 +9,7 @@ options {
  */
 
 file
-    :
+    : NEWLINE?
     ('var' NEWLINE
     (variableDeclaration NEWLINE)*)?
     mainSection NEWLINE? EOF
