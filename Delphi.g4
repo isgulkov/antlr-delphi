@@ -9,14 +9,43 @@ options {
  */
 
 expression
-    : primaryExpr
+    : orExpression
+    | additiveExpression
     ;
 
-primaryExpr
+additiveExpression
+    : multiplicativeExpression
+    | additiveExpression ('+' | '-') multiplicativeExpression
+    ;
+
+multiplicativeExpression
+    : primaryDoubleExpression
+    | multiplicativeExpression ('*' | '/') primaryDoubleExpression
+    ;
+
+primaryDoubleExpression
+    : DOUBLE
+    | ID
+    ;
+
+orExpression
+    : andExpression
+    | orExpression 'or' andExpression
+    ;
+
+andExpression
+    : notExpression
+    | andExpression 'and' notExpression
+    ;
+
+notExpression
+    : primaryBoolExpression
+    | 'not' primaryBoolExpression
+    ;
+
+primaryBoolExpression
     : BOOLEAN
     | ID
-    | DOUBLE
-    | STRING
     ;
 
 /*
