@@ -1,4 +1,4 @@
-grammar Turing;
+grammar Delphi;
 
 options {
     language = CSharp;
