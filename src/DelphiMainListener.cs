@@ -51,6 +51,11 @@ namespace DelphiTranslator
 			return "{expression}";
 		}
 
+		static string PrintExpr(DelphiParser.OrExpressionContext context)
+		{
+			return "{or-expression}";
+		}
+
 		public override void EnterFile(DelphiParser.FileContext context)
 		{
 			OutLine("using System;");
@@ -90,6 +95,16 @@ namespace DelphiTranslator
 		public override void EnterAssignmentStatement(DelphiParser.AssignmentStatementContext context)
 		{
 			OutLine($"{context.ID().GetText()} = {PrintExpr(context.expression())};");
+		}
+
+		public override void EnterWhileStatement(DelphiParser.WhileStatementContext context)
+		{
+			OutLine($"while({PrintExpr(context.orExpression())}) {{");
+		}
+
+		public override void ExitWhileStatement(DelphiParser.WhileStatementContext context)
+		{
+			OutLine("}");
 		}
 	}
 }
