@@ -1,13 +1,6 @@
 
 var
-
-
 a, b, c : boolean;
-
-
-d, e, f: double;
-
-
 begin
 	
 
