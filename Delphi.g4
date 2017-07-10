@@ -17,8 +17,8 @@ file
 
 mainSection
     :
-    'begin' NEWLINE
-    (statement NEWLINE)*
+    'begin' NEWLINE+
+    (statement NEWLINE+)*
     'end.'
     ;
 
