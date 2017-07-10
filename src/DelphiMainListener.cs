@@ -201,10 +201,13 @@ namespace DelphiTranslator
 			if(context.expression() != null) {
 				expressionToPrint = PrintExpr(context.expression());
 			}
-			else {
+			else if(context.STRING() != null) {
 				string s = context.STRING().GetText().Replace("\'", "'");
 
 				expressionToPrint = '"' + s.Substring(1, s.Length - 2) + '"';
+			}
+			else {
+				expressionToPrint = "";
 			}
 
 			OutLine($"Console.WriteLine({expressionToPrint});");
