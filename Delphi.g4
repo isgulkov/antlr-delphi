@@ -12,9 +12,14 @@ file
     :
     ('var' NEWLINE
     (variableDeclaration NEWLINE)*)?
+    mainSection NEWLINE? EOF
+    ;
+
+mainSection
+    :
     'begin' NEWLINE
     (statement NEWLINE)*
-    'end.' NEWLINE? EOF
+    'end.'
     ;
 
 variableDeclaration
