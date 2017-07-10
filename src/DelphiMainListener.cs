@@ -48,12 +48,89 @@ namespace DelphiTranslator
 
 		static string PrintExpr(DelphiParser.ExpressionContext context)
 		{
-			return "{expression}";
+			if(context.orExpression() != null) {
+				return PrintExpr(context.orExpression());
+			}
+			else if(context.additiveExpression() != null) {
+				return PrintExpr(context.additiveExpression());
+			}
+			else {
+				return null; // Never happens
+			}
+		}
+
+		static string PrintExpr(DelphiParser.AdditiveExpressionContext context)
+		{
+			if(context.additiveExpression() != null) {
+				return $"({PrintExpr(context.additiveExpression())} {context.children[1].GetText()}"
+					+ $" {PrintExpr(context.multiplicativeExpression())})";
+			}
+			else {
+				return PrintExpr(context.multiplicativeExpression());
+			}
+		}
+
+		static string PrintExpr(DelphiParser.MultiplicativeExpressionContext context)
+		{
+			if(context.multiplicativeExpression() != null) {
+				return $"({PrintExpr(context.multiplicativeExpression())} {context.children[1].GetText()}"
+					+ $" {PrintExpr(context.primaryDoubleExpression())})";
+			}
+			else {
+				return PrintExpr(context.primaryDoubleExpression());
+			}
+		}
+
+		static string PrintExpr(DelphiParser.PrimaryDoubleExpressionContext context)
+		{
+			return context.GetText();
 		}
 
 		static string PrintExpr(DelphiParser.OrExpressionContext context)
 		{
-			return "{or-expression}";
+			if(context.orExpression() != null) {
+				return $"({PrintExpr(context.orExpression())} || {PrintExpr(context.andExpression())})";
+			}
+			else {
+				return PrintExpr(context.andExpression());
+			}
+		}
+
+		static string PrintExpr(DelphiParser.AndExpressionContext context)
+		{
+			if(context.andExpression() != null) {
+				return $"({PrintExpr(context.andExpression())} && {PrintExpr(context.notExpression())})";
+			}
+			else {
+				return PrintExpr(context.notExpression());
+			}
+		}
+
+		static string PrintExpr(DelphiParser.NotExpressionContext context)
+		{
+			if(context.ChildCount == 2) {
+				return $"(!{PrintExpr(context.primaryBoolExpression())})";
+			}
+			else {
+				return PrintExpr(context.primaryBoolExpression());
+			}
+		}
+
+		static string PrintExpr(DelphiParser.PrimaryBoolExpressionContext context)
+		{
+			if(context.ID() != null) {
+				return context.ID().GetText();
+			}
+			else if(context.BOOLEAN() != null) {
+				switch(context.BOOLEAN().GetText()) {
+					case "True": return "true";
+					case "False": return "false";
+					default: return null; // Never happens
+				}
+			}
+			else {
+				return null; // Never happens
+			}
 		}
 
 		public override void EnterFile(DelphiParser.FileContext context)
