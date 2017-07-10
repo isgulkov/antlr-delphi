@@ -35,5 +35,29 @@ namespace DelphiTranslator
 
 			Environment.Exit(1);
 		}
+
+		public override void EnterFile(DelphiParser.FileContext context)
+		{
+			OutLine("using System;");
+			OutLine("");
+			OutLine("class Program");
+			OutLine("{");
+		}
+
+		public override void ExitFile(DelphiParser.FileContext context)
+		{
+			OutLine("}");
+		}
+
+		public override void EnterMainSection(DelphiParser.MainSectionContext context)
+		{
+			OutLine("public static void Main()");
+			OutLine("{");
+		}
+
+		public override void ExitMainSection(DelphiParser.MainSectionContext context)
+		{
+			OutLine("}");
+		}
 	}
 }
