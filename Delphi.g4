@@ -23,7 +23,7 @@ mainSection
     ;
 
 variableDeclaration
-    : ID (',' ID) ':' TYPENAME ';'
+    : ID (',' ID)* ':' TYPENAME ';'
     ;
 
 codeBlock
