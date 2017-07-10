@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace DelphiTranslator
 {
@@ -36,6 +37,15 @@ namespace DelphiTranslator
 			Environment.Exit(1);
 		}
 
+		static string CSharpType(string delphiType)
+		{
+			switch(delphiType) {
+				case "boolean": return "bool";
+				case "double": return "double";
+				default: return null; // Never happens
+			}
+		}
+
 		public override void EnterFile(DelphiParser.FileContext context)
 		{
 			OutLine("using System;");
@@ -58,6 +68,18 @@ namespace DelphiTranslator
 		public override void ExitMainSection(DelphiParser.MainSectionContext context)
 		{
 			OutLine("}");
+		}
+
+		public override void EnterVariableDeclaration(DelphiParser.VariableDeclarationContext context)
+		{
+			Out($"static {CSharpType(context.TYPENAME().GetText())} ");
+
+			Out(String.Join(
+				", ",
+				context.ID().Select(id => id.GetText())
+			));
+
+			OutLine(";");
 		}
 	}
 }
