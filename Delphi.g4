@@ -8,8 +8,21 @@ options {
  Parser rules
  */
 
+file
+    :
+    ('var' NEWLINE
+    (variableDeclaration NEWLINE)*)?
+    'begin' NEWLINE
+    (statement NEWLINE)*
+    'end.' NEWLINE? EOF
+    ;
+
+variableDeclaration
+    : ID (',' ID) ':' TYPENAME ';'
+    ;
+
 codeBlock
-    : 'begin' (statement NEWLINE)* 'end'
+    : 'begin' NEWLINE (statement NEWLINE)* 'end'
     ;
 
 statement
@@ -81,7 +94,9 @@ primaryBoolExpression
  Lexer rules
  */
 
-BOOLEAN : 'True' | 'False';
+TYPENAME : 'boolean' | 'double' ;
+
+BOOLEAN : 'True' | 'False' ;
 
 ID : [a-zA-Z_][a-zA-Z_0-9]* ;
 
