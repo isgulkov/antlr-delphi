@@ -8,6 +8,35 @@ options {
  Parser rules
  */
 
+codeBlock
+    : 'begin' (statement NEWLINE)* 'end'
+    ;
+
+statement
+    : assignmentStatement
+    | whileStatement
+    | ifStatement
+    | writelnStatement
+    ;
+
+assignmentStatement
+    : ID ':=' expression ';'
+    ;
+
+whileStatement
+    : 'while' orExpression 'do' statement
+    | 'while' orExpression 'do' NEWLINE codeBlock
+    ;
+
+ifStatement
+    : 'if' orExpression 'then' statement
+    | 'if' orExpression 'then' NEWLINE codeBlock
+    ;
+
+writelnStatement
+    : 'writeln' '(' (expression | STRING)? ')' ';'
+    ;
+
 expression
     : orExpression
     | additiveExpression
