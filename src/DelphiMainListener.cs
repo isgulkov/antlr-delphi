@@ -191,7 +191,7 @@ namespace DelphiTranslator
 
 		public override void ExitIfStatement(DelphiParser.IfStatementContext context)
 		{
-            OutLine("}");
+			OutLine("}");
 		}
 
 		public override void EnterWritelnStatement(DelphiParser.WritelnStatementContext context)
